@@ -1,21 +1,36 @@
 import '../css/style.css';
-import pokemonCardTpl from '../templates/pokemon-card.hbs';
+import countryTpl from '../templates/country.hbs';
 
-const listEl = document.querySelector('.js-list');
-const buttonEl = document.querySelector('.js-button');
+const countryContainer = document.querySelector('.country');
+const formEl = document.querySelector('.js-form');
 
-buttonEl.addEventListener('click', fetchPokemon)
+formEl.addEventListener('submit', onSearch);
 
-function fetchPokemon() {
-  return fetch("https://pokeapi.co/api/v2/pokemon/15")
-    .then(response => {
-      return response.json();
+function onSearch(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const inputValue = form.elements.country.value;
+
+  fetchCountries(inputValue)
+    .then(renderCountryCard)
+    .catch(error => console.log(error))
+    .finally(() => {
+      form.reset();
     })
-    .then(renderPokemonCard)
-    .catch(error => console.log(error));
 }
 
-function renderPokemonCard(pokemon) {
-  const markup = pokemonCardTpl(pokemon);
-  listEl.innerHTML = markup;
+
+function fetchCountries(countryName) {
+  return fetch(`https://restcountries.com/v2/name/${countryName}`)
+  .then(response => {
+    return response.json();
+  })
 }
+
+
+function renderCountryCard(country) {
+  const markup = countryTpl(country);
+  countryContainer.innerHTML = markup;
+}
+
