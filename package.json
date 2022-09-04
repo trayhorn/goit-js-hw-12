@@ -9,5 +9,8 @@
   "devDependencies": {
     "parcel": "latest",
     "parcel-plugin-handlebars-precompile": "^1.0.2"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8"
   }
 }
