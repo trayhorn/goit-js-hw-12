@@ -30,10 +30,6 @@ body {
   padding: 0;
 }
 
-.country-point:last-child {
-  margin: 0;
-}
-
 .country-image {
   margin-left: 40px;
   width: 300px;
@@ -41,6 +37,16 @@ body {
   display: block;
 }
 
+.country-list-item {
+  margin-left: 20px;
+}
+
+.country-list-item+.country-list-item {
+  margin-top: 10px;
+}
+
+
+/* INPUT STYLES */
 
 .form-input {
   font-size: 16px;
@@ -57,13 +63,6 @@ body {
 
 .form-input::placeholder {
   color: white;
-}
-
-.country-list-item {
-  margin-left: 20px;
-}
-.country-list-item + .country-list-item{
-  margin-top: 10px;
 }
 
 

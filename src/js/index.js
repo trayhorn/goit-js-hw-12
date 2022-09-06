@@ -1,14 +1,16 @@
 import '../css/style.css';
+import fetchCountries from './fetchCountries';
 import countryTpl from '../templates/country.hbs';
 import countriesListTpl from '../templates/countriesList';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+
 const countryContainer = document.querySelector('.country');
-const formEl = document.querySelector('.js-form');
+const inputEl = document.querySelector('.js-input');
 
 
-formEl.addEventListener('input', debounce(onSearch, 500));
+inputEl.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(event) {
   event.preventDefault();
@@ -16,23 +18,24 @@ function onSearch(event) {
   const inputValue = event.target.value;
 
   fetchCountries(inputValue)
-    .then(r => {
-      if (r.length > 10) {
-        Notify.info('Too many matches found. Please enter a more specific query!');
-      } else if (r.length >= 2 && r.length <= 10) {
-        renderCountriesList(r);
-        return
-      } else renderCountryCard(r);
-    })
+    .then(whatRender)
     .catch(err => {
+      console.log(err)
       Notify.failure('Oops, there is no country with that name');
     });
 }
 
 
-function fetchCountries(countryName) {
-  return fetch(`https://restcountries.com/v2/name/${countryName}`)
-    .then(response => response.json())
+function whatRender(response) { {
+  if (response.length > 10) {
+    Notify.info('Too many matches found. Please enter a more specific query!');
+  } else if (response.length >= 2 && response.length <= 10) {
+    renderCountriesList(response);
+    return;
+  } else {
+    renderCountryCard(response);
+  }
+  }
 }
 
 
